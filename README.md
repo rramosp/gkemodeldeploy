@@ -19,10 +19,20 @@
 
 ### Based on
 
+https://cloud.google.com/kubernetes-engine/docs/tutorials/serve-gemma-gpu-vllm
 https://cloud.google.com/kubernetes-engine/docs/tutorials/serve-gemma-gpu-tgi
 https://cloud.google.com/kubernetes-engine/docs/tutorials/autoscaling-metrics#custom-metric
 https://github.com/GoogleCloudPlatform/k8s-stackdriver/blob/master/custom-metrics-stackdriver-adapter/README.md
 
+## Select model
+
+if you want to deploy Gemma v2, 
+
+    cd gemma2
+
+if you want to deploy Gemma v3
+
+    cd gemma3
 
 ## Deploy
 
