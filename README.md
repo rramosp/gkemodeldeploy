@@ -1,4 +1,7 @@
 
+# Scalable deployments of LLMs under GKE
+
+
 ## Instructions
 
 ### Prerequisites
@@ -21,7 +24,7 @@ https://cloud.google.com/kubernetes-engine/docs/tutorials/autoscaling-metrics#cu
 https://github.com/GoogleCloudPlatform/k8s-stackdriver/blob/master/custom-metrics-stackdriver-adapter/README.md
 
 
-## Steps
+## Deploy
 
 
 ### 1. Deploy cluster
@@ -30,9 +33,6 @@ https://github.com/GoogleCloudPlatform/k8s-stackdriver/blob/master/custom-metric
     > gcloud container clusters get-credentials gemma2v3 --location=us-central1
     > kubectl create secret generic hf-secret --from-literal=hf_api_token=<YOUR_HF_TOKEN>
 
-**sanity checks**
-
-    > gcloud container clusters describe gemma2v3 --zone=us-central1
 
 
 ### 2. Deploy model  
@@ -43,7 +43,30 @@ https://github.com/GoogleCloudPlatform/k8s-stackdriver/blob/master/custom-metric
     > k apply -f manifests/03_loadbalancer.yaml
     > k apply -f manifests/04_monitor.yaml 
 
-**sanity checks**
+
+
+### 3. Deploy autoscaling
+
+    > k apply -f manifests/05-enable-custom-metrics.yaml
+
+    > gcloud iam service-accounts add-iam-policy-binding --role \
+         roles/iam.workloadIdentityUser --member \
+         "serviceAccount:gemma-test-deployment.svc.id.goog[custom-metrics/custom-metrics-stackdriver-adapter]" \
+         883536042426-compute@developer.gserviceaccount.com
+
+    > kubectl annotate serviceaccount --namespace custom-metrics \
+         custom-metrics-stackdriver-adapter \
+         iam.gke.io/gcp-service-account=883536042426-compute@developer.gserviceaccount.com
+
+
+    > k apply -f manifests/06-hpa.yaml
+
+
+## Sanity checks
+
+Check cluster is created
+
+    > gcloud container clusters describe gemma2v3 --zone=us-central1
 
 After a few minutes you should see at least one pod on one node up and running
 
@@ -97,26 +120,6 @@ Generate a load and observe model serving performance
 
 
 You should also see metrics at: https://console.cloud.google.com/monitoring/metrics-explorer
-
-
-### 3. Deploy autoscaling
-
-    > k apply -f manifests/05-enable-custom-metrics.yaml
-
-    > gcloud iam service-accounts add-iam-policy-binding --role \
-         roles/iam.workloadIdentityUser --member \
-         "serviceAccount:gemma-test-deployment.svc.id.goog[custom-metrics/custom-metrics-stackdriver-adapter]" \
-         883536042426-compute@developer.gserviceaccount.com
-
-    > kubectl annotate serviceaccount --namespace custom-metrics \
-         custom-metrics-stackdriver-adapter \
-         iam.gke.io/gcp-service-account=883536042426-compute@developer.gserviceaccount.com
-
-
-    > k apply -f manifests/06-hpa.yaml
-
-
-**sanity checks**
 
 Check custom metrics services are ok. You should see `v1beta1.custom.metrics.k8s.io` with the availability flag set to `true`
 
