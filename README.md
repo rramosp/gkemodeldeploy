@@ -96,9 +96,12 @@ Generate a load and observe model serving performance
     `> python src/monitor.py --endpoint http://35.224.145.17:8000 --metrics tgi_queue_size,tgi_request_count,tgi_request_success`
 
 
-You should also see metrics at: https://console.cloud.google.com/monitoring
+You should also see metrics at: https://console.cloud.google.com/monitoring/metrics-explorer
+
 
 ### 3. Deploy autoscaling
+
+    > k apply -f manifests/05-enable-custom-metrics.yaml
 
     > gcloud iam service-accounts add-iam-policy-binding --role \
          roles/iam.workloadIdentityUser --member \
@@ -110,142 +113,29 @@ You should also see metrics at: https://console.cloud.google.com/monitoring
          iam.gke.io/gcp-service-account=883536042426-compute@developer.gserviceaccount.com
 
 
-    > k apply -f manifests/05-enable-custom-metrics.yaml
     > k apply -f manifests/06-hpa.yaml
 
 
+**sanity checks**
+
+Check custom metrics services are ok. You should see `v1beta1.custom.metrics.k8s.io` with the availability flag set to `true`
+
+    k get apiservices
 
 
+Check horizontal pod autoscaler (HPA) is able to monitor the metrics. You should see messages like _the HPA was able to successfully calculate a replica count from pods metric_
 
-------
-
-### STEP 1: Deploy cluster
-
-https://cloud.google.com/kubernetes-engine/docs/tutorials/serve-gemma-gpu-tgi
-
-summary of key commands for step 1 (included in the link above):
-
-```
-  gcloud container clusters create-auto gemma2 --project=gemma-test-deployment --region=us-central1 --release-channel=rapid
+    k decribe hpa
 
 
+Increase the load for HPA to kick off. Edit `src/locust.config` and set `users=500` and run
 
-  gcloud container clusters get-credentials gemma2     --location=us-central1
-  kubectl create secret generic hf-secret --from-literal=hf_api_token=<YOUR_HF_TOKEN>
-  kubectl apply -f tgi-2-2b-it.yaml
-```
-    
-check deployment is finished
-```
- kubectl get pods
- kubectl port-forward service/gema 8000:8000
-```
+    locust --config src/locust.conf 
 
-tell GCP Managed Prometeus what 
+Open http://localhost:8089 in a browser and click on the charts tab. 
+
+Run pods gpus monitoring command
+
+    > python src/monitor.py --endpoint http://35.224.145.17:8000 --metrics tgi_queue_size,tgi_request_count,tgi_request_success
 
 
-
-
-### STEP 2: Deploy gradio UI
-
-
-```
- kubectl apply -f gradio.yaml
- kubectl port-forward service/gradio 8080:8080
-```
-
-open browser at localhost:8080
-
-### STEP 3: Install autoscaling
-
-follow this
-
-https://cloud.google.com/kubernetes-engine/docs/tutorials/autoscaling-metrics#custom-metric
-https://github.com/GoogleCloudPlatform/k8s-stackdriver/blob/master/custom-metrics-stackdriver-adapter/README.md
-
-summary of commands
-
-gcloud iam service-accounts add-iam-policy-binding --role \
-  roles/iam.workloadIdentityUser --member \
-  "serviceAccount:gemma-test-deployment.svc.id.goog[custom-metrics/custom-metrics-stackdriver-adapter]" \
-  883536042426-compute@developer.gserviceaccount.com
-
-
-kubectl annotate serviceaccount --namespace custom-metrics \
-  custom-metrics-stackdriver-adapter \
-  iam.gke.io/gcp-service-account=883536042426-compute@developer.gserviceaccount.com
-
-
-
-### STEP 3: Enable TGI/LLM dashboard
-
-https://cloud.google.com/stackdriver/docs/managed-prometheus/exporters/tgi
-
-summary of key commands for step 3:
-
-```
- kubectl apply -f tgi-monitor.yaml
- kubectl apply -f default-sa-role.yaml
- kubectl apply -f default-sa-rolebinding.yaml
-```
-
-check metrics are being collected openning  http://localhost:8000/metrics once you forward port 8000 from any pod. Replace <ANY_POD> with the pod id you get from `kubectl get pods`
-
-
-```
-kubectl port-forward <ANY_POD> 8000:8000
-```
-
-
-then make a few request (curl or gradio), go to https://console.cloud.google.com/monitoring/dashboards and check some doashboards, in particular:
-
-- GKE, for a global overview of the cluster
-- NVIDIA GPU Monitoring
-- TGI Prometheus overview, for LLM specific metrics
-
- https://console.cloud.google.com/monitoring/dashboards 
-
-
-## STEP 4: Scale manually
-
-set the total number of pods you want
-
-    kubectl scale deployment tgi-gemma-deployment --replicas 3
-
-check their status
-
-
-
-manually ssh and inspect their load
-
-```
- > kubectl get pods
-
- NAME                                    READY   STATUS    RESTARTS   AGE
- gradio-594969d66b-7jbsz                 1/1     Running   0          9h
- tgi-gemma-deployment-7d9f9dcd9d-kx5pp   1/1     Running   0          10h
- tgi-gemma-deployment-7d9f9dcd9d-xjg2x   0/1     Pending   0          2s
-
-
- >  kubectl exec -it tgi-gemma-deployment-7d9f9dcd9d-kx5pp -- /bin/bash
-
- root@tgi-gemma-deployment-7d9f9dcd9d-kx5pp:/usr/src# nvidia-smi -l 1
- ...
- root@tgi-gemma-deployment-7d9f9dcd9d-kx5pp:/usr/src# CTRL-C
- root@tgi-gemma-deployment-7d9f9dcd9d-kx5pp:/usr/src# exit
-```
-
-**Commands
-to add monitoring
-create default service account: projectnumber-...computeengine....
-
-k apply default*role*.yaml
-
-# for debugging
-k apply -f enable-target-status.yaml 
-
-
-
-**Dashboards
-
-https://console.cloud.google.com/monitoring/metrics-explorer

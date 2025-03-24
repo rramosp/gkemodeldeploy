@@ -14,8 +14,11 @@ parser.add_argument("--metrics", help="a comma separated list of metrics")
 args = parser.parse_args()
 
 url = args.endpoint
-metrics = [i.strip() for i in args.metrics.split(',')]
 
+if args.metrics is not None:
+    metrics = [i.strip() for i in args.metrics.split(',')]
+else:
+    metrics = None
 
 class Pods:
 
@@ -45,8 +48,7 @@ class Pods:
     def run_loop(self, method, wait_seconds=1):
         while True:
             r = method()
-            s = requests.get(f'{url}/metrics')
-            m = [[si for si in str(s.text).split('\n') if si.startswith(metric)] for metric in metrics]
+
             
             clear_output()
             current_dateTime = datetime.now()    
@@ -55,13 +57,16 @@ class Pods:
                 logger.info (f'  {k:48s}    {v}')
 
             logger.info('')
-            logger.info('end point metrics')
-            if len(m)==0:
-                logger.error (f'metric {metric} not found')
-            else:
-                for mi in m:
-                    logger.info ('  '+'\n'.join(mi))
-            print ('', flush=True)   
+            if metrics is not None:
+                s = requests.get(f'{url}/metrics')
+                m = [[si for si in str(s.text).split('\n') if si.startswith(metric)] for metric in metrics]
+                logger.info('end point metrics')
+                if len(m)==0:
+                    logger.error (f'metric {metric} not found')
+                else:
+                    for mi in m:
+                        logger.info ('  '+'\n'.join(mi))
+                print ('', flush=True)   
             sleep(wait_seconds)
 
             if np.random.randint(10)==0:
