@@ -87,10 +87,16 @@ Generate a load and observe model serving performance
 - edit `src/locust.conf`, set your external IP above and `users=50` (or some number you want to test)
 - run 
 
-    > locust --config src/locust.conf
+   `> locust --config src/locust.conf`
 
 - open http://localhost:8089 in a browser and click on the charts tab. You should see requests per second and latency (response times)
 
+- you can also run the following command in another shell to monitor gpu performance and metrics while doing the load test.
+
+    `> python src/monitor.py --endpoint http://35.224.145.17:8000 --metrics tgi_queue_size,tgi_request_count,tgi_request_success`
+
+
+You should also see metrics at: https://console.cloud.google.com/monitoring
 
 ### 3. Deploy autoscaling
 
@@ -104,7 +110,8 @@ Generate a load and observe model serving performance
          iam.gke.io/gcp-service-account=883536042426-compute@developer.gserviceaccount.com
 
 
-    kubeflow apply -f 08_hpa.yaml
+    > k apply -f manifests/05-enable-custom-metrics.yaml
+    > k apply -f manifests/06-hpa.yaml
 
 
 

@@ -1,11 +1,12 @@
 import requests
 import sys
+import argparse
 
-if len(sys.argv)!=2:
-   print('must include one arg with the API endpoint')
-   exit(-1)
+parser = argparse.ArgumentParser()
+parser.add_argument("endpoint", help="the url endpoint, such as http://localhost:8000")
+args = parser.parse_args()
 
-url = sys.argv[1]
+url = args.endpoint
 
 # Data to be sent
 
