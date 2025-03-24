@@ -7,24 +7,34 @@
 ### Prerequisites
 
 - Create or select a project
-- Enable Kubernetes Engine API
+- Enable Kubernetes Engine API and GKE Enterprise
 - Create a VPC named 'default', if it does not exist.  
-- In IAM -> Organizational policies edit the policy `constraints/compute.vmExternalIpAccess` and add a new rule **Allow all**
-- Create a default service account `<project_number>-compute@developer.gserviceaccount.com` with permissions `Kubernetes Engine Cluster Admin` and `Monitoring Admin` if it does not exist, or does not have such permissions.
+- In IAM $\rightarrow$ Organizational policies edit the policy `constraints/compute.vmExternalIpAccess` and add a new rule **Allow all**
+- In IAM $\rightarrow$ Service accounts create a default service account `<project_number>-compute@developer.gserviceaccount.com` with permissions `Kubernetes Engine Cluster Admin` and `Monitoring Admin` if it does not exist, or does not have such permissions.
 - Accept licence of the model you want to deploy in Hugging Face and get an access token.
-- Enable GKE Enterprise.
 - Install locust load generator (`pip install locust`)
+
 **NOTE**: These policies and configurations could be set more restrictive according to particular needs.
 
 
 ### Based on
 
-https://cloud.google.com/kubernetes-engine/docs/tutorials/serve-gemma-gpu-vllm
-https://cloud.google.com/kubernetes-engine/docs/tutorials/serve-gemma-gpu-tgi
-https://cloud.google.com/kubernetes-engine/docs/tutorials/autoscaling-metrics#custom-metric
-https://github.com/GoogleCloudPlatform/k8s-stackdriver/blob/master/custom-metrics-stackdriver-adapter/README.md
+- [Serve Gemma open models using GPUs on GKE with vLLM ](https://cloud.google.com/kubernetes-engine/docs/tutorials/serve-gemma-gpu-vllm)
+- [Serve Gemma open models using GPUs on GKE with Hugging Face TGI](
+https://cloud.google.com/kubernetes-engine/docs/tutorials/serve-gemma-gpu-tgi)
+- [Optimize Pod autoscaling based on metrics](https://cloud.google.com/kubernetes-engine/docs/tutorials/autoscaling-metrics)
+- [Custom Metrics - Stackdriver Adapter](https://github.com/GoogleCloudPlatform/k8s-stackdriver/blob/master/custom-metrics-stackdriver-adapter/README.md)
 
-## Select model
+
+## Deploy
+
+### 1. Deploy cluster
+
+    > gcloud container clusters create-auto gemmacluster --project=gemma-test-deployment --region=us-central1 --release-channel=rapid
+    > gcloud container clusters get-credentials gemmacluster --location=us-central1
+    > kubectl create secret generic hf-secret --from-literal=hf_api_token=<YOUR_HF_TOKEN>
+
+### 2. Select model
 
 if you want to deploy Gemma v2, 
 
@@ -34,18 +44,9 @@ if you want to deploy Gemma v3
 
     cd gemma3
 
-## Deploy
+you could even deploy both as they are declared with different deployment and service names.
 
-
-### 1. Deploy cluster
-
-    > gcloud container clusters create-auto gemma2v3 --project=gemma-test-deployment --region=us-central1 --release-channel=rapid
-    > gcloud container clusters get-credentials gemma2v3 --location=us-central1
-    > kubectl create secret generic hf-secret --from-literal=hf_api_token=<YOUR_HF_TOKEN>
-
-
-
-### 2. Deploy model  
+### 3. Deploy model  
 
     > alias k=kubeflow
     > k apply -f manifests/01_deployment.yaml
@@ -53,9 +54,7 @@ if you want to deploy Gemma v3
     > k apply -f manifests/03_loadbalancer.yaml
     > k apply -f manifests/04_monitor.yaml 
 
-
-
-### 3. Deploy autoscaling
+### 4. Deploy autoscaling
 
     > k apply -f manifests/05-enable-custom-metrics.yaml
 
@@ -76,7 +75,7 @@ if you want to deploy Gemma v3
 
 Check cluster is created
 
-    > gcloud container clusters describe gemma2v3 --zone=us-central1
+    > gcloud container clusters describe gemmacluster --zone=us-central1
 
 After a few minutes you should see at least one pod on one node up and running
 
@@ -89,8 +88,8 @@ After a few minutes you should see at least one pod on one node up and running
     pod/tgi-gemma-deployment-7d9f9dcd9d-t4rxv   1/1     Running   0          26m
 
     NAME                                           STATUS   ROLES    AGE   VERSION
-    node/gk3-gemma2v3-nap-1bwi7nsq-ce6f4ef9-bdpr   Ready    <none>   31m   v1.32.2-gke.1182001
-    node/gk3-gemma2v3-nap-1wr2jc8m-01e7233c-7btk   Ready    <none>   25m   v1.32.2-gke.1182001
+    node/gk3-gemmacluster-nap-1bwi7nsq-ce6f4ef9-bdpr   Ready    <none>   31m   v1.32.2-gke.1182001
+    node/gk3-gemmacluster-nap-1wr2jc8m-01e7233c-7btk   Ready    <none>   25m   v1.32.2-gke.1182001
 
 Check pod is working (use the pod id you got above). You should get some text about WW2. It might take a few extra mins since the pod is running to start up the model server.
 
