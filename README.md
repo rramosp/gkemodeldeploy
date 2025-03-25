@@ -161,4 +161,7 @@ Run pods gpus monitoring command
 
     > python src/monitor.py --endpoint http://35.224.145.17:8000 --metrics tgi_queue_size,tgi_request_count,tgi_request_success
 
+See what HPA is doing
+
+    > k describe hpa
 
