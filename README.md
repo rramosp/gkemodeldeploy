@@ -1,5 +1,5 @@
 
-# Scalable deployments of LLMs under GKE
+# LLMs scalable deployments under GKE
 
 
 <img src="imgs/gradio.png" style="width:800px;"/>
