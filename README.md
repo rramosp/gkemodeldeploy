@@ -2,8 +2,8 @@
 # Scalable deployments of LLMs under GKE
 
 
-<img src="imgs/locust.png" style="width:500px;"/>
-<img src="imgs/gradio.png" style="width:500px;"/>
+<img src="imgs/gradio.png" style="width:800px;"/>
+<img src="imgs/locust.png" style="width:800px;"/>
 
 
 ## Instructions
