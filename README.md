@@ -136,7 +136,7 @@ Generate a load and observe model serving performance
 
 - you can also run the following command in another shell to monitor gpu performance and metrics while doing the load test.
 
-    `> python src/monitor.py --endpoint http://35.224.145.17:8000 --metrics tgi_queue_size,tgi_request_count,tgi_request_success`
+    `> python src/monitor.py --endpoint http://35.224.145.17:8000`
 
 
 You should also see metrics at: https://console.cloud.google.com/monitoring/metrics-explorer
