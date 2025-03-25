@@ -40,11 +40,11 @@ https://cloud.google.com/kubernetes-engine/docs/tutorials/serve-gemma-gpu-tgi)
 
 ### 2. Select model
 
-if you want to deploy Gemma v2, 
+if you want to deploy Gemma v2 with TGI
 
     cd gemma2
 
-if you want to deploy Gemma v3
+if you want to deploy Gemma v3 with vLLM
 
     cd gemma3
 
