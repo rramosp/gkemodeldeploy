@@ -79,7 +79,7 @@ you could even deploy both as they are declared with different deployment and se
     > k apply -f manifests/07-gradio.yaml
     > k port-forward service/gradio 8080:8080
 
-and open your browser at localhost:8080
+and open your browser at http://localhost:8080
 
 
 ## Sanity checks
