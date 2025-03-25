@@ -2,6 +2,8 @@
 # Scalable deployments of LLMs under GKE
 
 
+![lcust](imgs/locust.png)
+
 ## Instructions
 
 ### Prerequisites
