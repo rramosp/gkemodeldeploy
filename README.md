@@ -37,49 +37,54 @@ https://cloud.google.com/kubernetes-engine/docs/tutorials/serve-gemma-gpu-tgi)
     > gcloud container clusters create-auto gemmacluster --project=gemma-test-deployment --region=us-central1 --release-channel=rapid
     > gcloud container clusters get-credentials gemmacluster --location=us-central1
     > kubectl create secret generic hf-secret --from-literal=hf_api_token=<YOUR_HF_TOKEN>
-
-### 2. Select model
-
-if you want to deploy Gemma v2 with TGI
-
-    cd gemma2
-
-if you want to deploy Gemma v3 with vLLM
-
-    cd gemma3
-
-you could even deploy both as they are declared with different deployment and service names.
-
-### 3. Deploy model  
-
     > alias k=kubeflow
-    > k apply -f manifests/01_deployment.yaml
-    > k apply -f manifests/02_perrmissions.yaml
+
+### 2. Deploy model  
+    
+    > k apply -f manifests/01_deployment_gemma3-1b.yaml  
+
+or
+
+    > k apply -f manifests/01_deployment_llama3_8b.yaml  
+
+### 3. Deploy load balancing and monitoring
+
+    # deploy balancer and scaling
+    > k apply -f manifests/02_permissions.yaml
     > k apply -f manifests/03_loadbalancer.yaml
     > k apply -f manifests/04_monitor.yaml 
 
-### 4. Deploy autoscaling
+### 4. Deploy autoscaling (0 to n, based on http requests)
 
-    > k apply -f manifests/05-enable-custom-metrics.yaml
+    > helm repo add kedacore https://kedacore.github.io/charts
+    > helm repo update
+    > helm install keda kedacore/keda --namespace keda --create-namespace
+    > helm install http-add-on kedacore/keda-add-ons-http --namespace keda --set interceptor.responseHeaderTimeout=10s
+    > k apply -f manifests/05-keda-scale2zero.yaml
+    
+### 4. (Alternative) Deploy autoscaling (1 to n, based on llm metrics)
+
 
     > gcloud iam service-accounts add-iam-policy-binding --role \
          roles/iam.workloadIdentityUser --member \
          "serviceAccount:gemma-test-deployment.svc.id.goog[custom-metrics/custom-metrics-stackdriver-adapter]" \
          883536042426-compute@developer.gserviceaccount.com
 
+    > k apply -f manifests/06-enable-custom-metrics.yaml
+
     > kubectl annotate serviceaccount --namespace custom-metrics \
          custom-metrics-stackdriver-adapter \
          iam.gke.io/gcp-service-account=883536042426-compute@developer.gserviceaccount.com
 
-
-    > k apply -f manifests/06-hpa.yaml
+    > k apply -f manifests/07-hpa.yaml
 
 ### 5. Deploy UI (optional)
 
-    > k apply -f manifests/07-gradio.yaml
+    > k apply -f manifests/08-gradio.yaml
     > k port-forward service/gradio 8080:8080
 
 and open your browser at http://localhost:8080
+
 
 
 ## Sanity checks
@@ -165,3 +170,6 @@ See what HPA is doing
 
     > k describe hpa
 
+Check KEDA (scale to zero) is running
+
+    > kubectl get pods -n keda

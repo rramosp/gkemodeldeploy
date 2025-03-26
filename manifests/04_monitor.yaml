@@ -1,0 +1,25 @@
+apiVersion: monitoring.googleapis.com/v1
+kind: PodMonitoring
+metadata:
+  name: llm-monitor
+  labels:
+    app.kubernetes.io/name: llm-monitor
+    app.kubernetes.io/part-of: google-cloud-managed-prometheus
+spec:
+  selector:
+    matchLabels:
+      app: llm-server
+
+  endpoints:
+  - port: 8000 
+    path: /metrics
+    interval: 15s
+---
+apiVersion: monitoring.googleapis.com/v1
+kind: OperatorConfig
+metadata:
+  namespace: gmp-public
+  name: config
+features:
+  targetStatus:
+    enabled: true
