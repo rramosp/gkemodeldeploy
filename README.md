@@ -85,6 +85,13 @@ or
 
 and open your browser at http://localhost:8080
 
+### Monitor your cluster
+
+    > watch -n 1 kubectl get deployments,pods,nodes,services
+
+or
+
+    > watch -n 1 kubectl get deployments,pods,nodes,services,podmonitoring,HTTPScaledObject
 
 
 ## Sanity checks
@@ -109,8 +116,8 @@ After a few minutes you should see at least one pod on one node up and running
 
 Check pod is working (use the pod id you got above). You should get some text about WW2. It might take a few extra mins since the pod is running to start up the model server.
 
-    > k port-forward pod/tgi-gemma-deployment-7d9f9dcd9d-t4rxv 8000:8000
-    > python src/test.py http://localhost:8000
+    > k port-forward pod/pod/llm-deployment-6b6cb977c7-qf5rf 8000:8000
+    > python src/test.py --model gemma3-1b --endpoint http://localhost:8000
 
 Check pod is keeping metrics. You should see a list of many metrics.
 
@@ -132,7 +139,7 @@ Check external access is working. Use the external IP from the following command
 
 Generate a load and observe model serving performance
 
-- edit `src/locust.conf`, set your external IP above and `users=50` (or some number you want to test)
+- edit `src/locust.sh`, set your external IP above and `users=50` (or some number you want to test)
 - run 
 
    `> locust --config src/locust.conf`
@@ -146,17 +153,15 @@ Generate a load and observe model serving performance
 
 You should also see metrics at: https://console.cloud.google.com/monitoring/metrics-explorer
 
+
+**For HPA (1,n, scaling)**
+
 Check custom metrics services are ok. You should see `v1beta1.custom.metrics.k8s.io` with the availability flag set to `true`
 
     k get apiservices
 
 
-Check horizontal pod autoscaler (HPA) is able to monitor the metrics. You should see messages like _the HPA was able to successfully calculate a replica count from pods metric_
-
-    k decribe hpa
-
-
-Increase the load for HPA to kick off. Edit `src/locust.config` and set `users=500` and run
+Increase the load for HPA to kick off. Edit `src/locust.sh` and set `users=500` and run
 
     locust --config src/locust.conf 
 

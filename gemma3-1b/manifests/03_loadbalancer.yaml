@@ -6,7 +6,7 @@ spec:
   type: LoadBalancer
   ports:
     - protocol: TCP
-      port: 8000
+      port: 80
       targetPort: 8000
   selector:
     app: gemma3-server

@@ -23,7 +23,30 @@ class Gemma3:
         return data
 
 
-models = { 'gemma3-1b': Gemma3() }
+class Llama3:
+
+    def get_genai_path(self):
+        return '/v1/completions'
+
+    def get_metrics_path(self):
+        return '/metrics'
+
+    def build_request_data(self, user_prompt, max_tokens):
+        data = {
+            "model": "meta-llama/Meta-Llama-3-8B",
+
+            "model": "meta-llama/Meta-Llama-3-8B",
+            "prompt": user_prompt, 
+            "use_beam_search": False, 
+            "max_tokens": max_tokens,
+            "temperature":1.0
+        }
+        return data
+
+
+
+models = { 'gemma3-1b': Gemma3(),
+           'llama3-8b': Llama3() }
 
 def get_model(modelstr):
 

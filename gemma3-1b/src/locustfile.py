@@ -4,6 +4,8 @@ from locust import HttpUser, task, between
 import os
 import subprocess
 from loguru import logger
+import json
+import requests
 
 questions = [
     "What's the capital of France?",
@@ -18,34 +20,16 @@ questions = [
     "Who painted the Mona Lisa?"
 ]
 
-import socket
-def get_ip():
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.settimeout(0)
-    try:
-        # doesn't even have to be reachable
-        s.connect(('10.254.254.254', 1))
-        IP = s.getsockname()[0]
-    except Exception:
-        IP = '127.0.0.1'
-    finally:
-        s.close()
-    return IP
-
-
 class LLMUser(HttpUser):
     wait_time = between(0,1)
 
     @task
     def generate_content(self):
 
-        hostname = os.getenv('HOSTNAME')
-        hostname = subprocess.run(['hostname', '-I'], capture_output=True).stdout.decode().strip()
-    
         question = questions[np.random.randint(len(questions))]
         num_tokens = np.random.randint(1000) + 128
 
-        url = "/v1/chat/completions"  
+        url = '/v1/chat/completions'
 
         data = {
             "model": "google/gemma-3-4b-it",
@@ -59,8 +43,14 @@ class LLMUser(HttpUser):
 
         }
 
+        headers = { 'Host': '35.202.125.152',
+            "Content-Type": "application/json",
+        }
+        
+        # A POST request to the API
+        r = self.client.post(url, 
+                                data=json.dumps(data), 
+                                headers=headers, timeout=1000)
 
-        headers = {"Content-Type": "application/json"} # example header.
 
-        r = self.client.post(url, json=data, headers=headers, name="Post Resource") # send Json data.
-        logger.info (f"{hostname} -- num_tokens={num_tokens:6d}, r.status_code={r.status_code:4d}, r.reason={r.reason}")
+        logger.info (f"num_tokens={num_tokens:6d}, r.status_code={r.status_code:4d}, r.reason={r.reason}")

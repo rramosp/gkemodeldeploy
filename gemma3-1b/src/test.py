@@ -1,6 +1,7 @@
 import requests
 import sys
 import argparse
+import json
 
 parser = argparse.ArgumentParser()
 parser.add_argument("endpoint", help="the url endpoint, such as http://localhost:8000")
@@ -26,9 +27,18 @@ data = {
 
 }
 
+headers = { 'Host': '35.202.125.152',
+    "Content-Type": "application/json",
+}
+print (json.dumps(data))
 
 # A POST request to the API
-response = requests.post(f'{url}/v1/chat/completions', json=data)
+response = requests.post(f'{url}/v1/chat/completions', 
+                        data=json.dumps(data), 
+                        headers=headers, timeout=1000)
 
 # Print the response
-print(response.json())
+print(dir(response))
+print(response.reason)
+print(response.status_code)
+print(response.content.decode())

@@ -1,19 +1,19 @@
 kind: HTTPScaledObject
 apiVersion: http.keda.sh/v1alpha1
 metadata:
-    name: llm-http-scaling
+    name: http-scaling
 spec:
     hosts: 
-      - 34.42.224.58
+      - 35.202.125.152
     scaleTargetRef:
-        name: llm-deployment
+        name: vllm-gemma3-deployment
         kind: Deployment
         apiVersion: apps/v1
-        service: llm-service
-        port: 8000
+        service: gemma3-service
+        port: 80
     replicas:
         min: 0
-        max: 10
+        max: 1
     scaledownPeriod: 300
     scalingMetric:
         requestRate:
