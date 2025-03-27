@@ -1,0 +1,29 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  annotations:
+    aire.gke.io/generated: "true"
+  creationTimestamp: null
+  labels:
+    app: gemma-inference-server
+  name: vllm-hpa
+  namespace: default
+spec:
+  maxReplicas: 10
+  metrics:
+  - pods:
+      metric:
+        name: prometheus.googleapis.com|vllm:gpu_cache_usage_perc|gauge
+      target:
+        averageValue: 602m
+        type: AverageValue
+    type: Pods
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: gemma-deployment
+status:
+  currentMetrics: null
+  desiredReplicas: 0
+

@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    aire.gke.io/generated: "true"
+  creationTimestamp: null
+  labels:
+    app: gemma-inference-server
+  name: gemma-inference-service
+  namespace: default
+spec:
+  ports:
+  - port: 8000
+    protocol: TCP
+    targetPort: 8000
+  selector:
+    app: gemma-inference-server
+  type: ClusterIP
+status:
+  loadBalancer: {}

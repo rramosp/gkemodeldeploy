@@ -1,0 +1,16 @@
+apiVersion: monitoring.googleapis.com/v1
+kind: PodMonitor
+metadata:
+  name: gemma-podmonitor
+  namespace: default # Namespace where the PodMonitor resides
+spec:
+  selector:
+    matchLabels:
+      app: gemma-server # Select pods with the label "app: my-app"
+  namespaceSelector:
+    matchNames:
+    - default # Select pods in the "default" namespace
+  podMetricsEndpoints:
+  - port: metrics # Port where the metrics are exposed
+    path: /metrics # Path to the metrics endpoint
+    interval: 30s # Scrape interval

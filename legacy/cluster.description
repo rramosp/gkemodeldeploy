@@ -1,0 +1,818 @@
+addonsConfig:
+  dnsCacheConfig:
+    enabled: true
+  gcePersistentDiskCsiDriverConfig:
+    enabled: true
+  gcpFilestoreCsiDriverConfig:
+    enabled: true
+  gcsFuseCsiDriverConfig:
+    enabled: true
+  kubernetesDashboard:
+    disabled: true
+  networkPolicyConfig:
+    disabled: true
+  parallelstoreCsiDriverConfig:
+    enabled: true
+  statefulHaConfig:
+    enabled: true
+autopilot:
+  enabled: true
+autoscaling:
+  autoprovisioningNodePoolDefaults:
+    imageType: COS_CONTAINERD
+    management:
+      autoRepair: true
+      autoUpgrade: true
+    oauthScopes:
+    - https://www.googleapis.com/auth/devstorage.read_only
+    - https://www.googleapis.com/auth/logging.write
+    - https://www.googleapis.com/auth/monitoring
+    - https://www.googleapis.com/auth/service.management.readonly
+    - https://www.googleapis.com/auth/servicecontrol
+    - https://www.googleapis.com/auth/trace.append
+    serviceAccount: default
+    upgradeSettings:
+      maxSurge: 1
+      strategy: SURGE
+  autoscalingProfile: OPTIMIZE_UTILIZATION
+  enableNodeAutoprovisioning: true
+  resourceLimits:
+  - maximum: '1000000000'
+    resourceType: cpu
+  - maximum: '1000000000'
+    resourceType: memory
+  - maximum: '1000000000'
+    resourceType: nvidia-tesla-t4
+  - maximum: '1000000000'
+    resourceType: nvidia-tesla-a100
+clusterIpv4Cidr: 10.5.128.0/17
+controlPlaneEndpointsConfig:
+  dnsEndpointConfig:
+    allowExternalTraffic: false
+    endpoint: gke-dbeca2c2c8e84ab1922bc5a53850bcdfb117-883536042426.us-central1.gke.goog
+  ipEndpointsConfig:
+    authorizedNetworksConfig:
+      gcpPublicCidrsAccessEnabled: true
+    enablePublicEndpoint: true
+    enabled: true
+    privateEndpoint: 10.128.0.23
+    publicEndpoint: 35.193.212.119
+createTime: '2025-03-20T18:28:34+00:00'
+currentMasterVersion: 1.32.2-gke.1182000
+currentNodeCount: 3
+currentNodeVersion: 1.32.2-gke.1182000
+databaseEncryption:
+  currentState: CURRENT_STATE_DECRYPTED
+  state: DECRYPTED
+defaultMaxPodsConstraint:
+  maxPodsPerNode: '110'
+endpoint: 35.193.212.119
+enterpriseConfig:
+  clusterTier: STANDARD
+etag: adf9edbd-3672-4073-9a26-057f41d31f1d
+id: dbeca2c2c8e84ab1922bc5a53850bcdfb117f8bb0ac64589a72dd65c6c2115cf
+initialClusterVersion: 1.32.2-gke.1182000
+instanceGroupUrls:
+- https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-b/instanceGroupManagers/gk3-gemma-cluster-default-pool-e835544d-grp
+- https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-b/instanceGroupManagers/gk3-gemma-cluster-pool-1-7d8e2613-grp
+- https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-c/instanceGroupManagers/gk3-gemma-cluster-pool-1-eccbcba2-grp
+- https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-f/instanceGroupManagers/gk3-gemma-cluster-pool-1-b7057a34-grp
+- https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-a/instanceGroupManagers/gk3-gemma-cluster-pool-1-113b3a52-grp
+- https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-b/instanceGroupManagers/gk3-gemma-cluster-pool-2-3e6f110d-grp
+- https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-c/instanceGroupManagers/gk3-gemma-cluster-pool-2-32840c77-grp
+- https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-f/instanceGroupManagers/gk3-gemma-cluster-pool-2-ca24b76a-grp
+- https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-a/instanceGroupManagers/gk3-gemma-cluster-pool-2-5f27cee2-grp
+- https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-b/instanceGroupManagers/gk3-gemma-cluster-pool-3-509cfe47-grp
+- https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-c/instanceGroupManagers/gk3-gemma-cluster-pool-3-17b30870-grp
+- https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-f/instanceGroupManagers/gk3-gemma-cluster-pool-3-b0b20daa-grp
+- https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-a/instanceGroupManagers/gk3-gemma-cluster-pool-3-25a643c1-grp
+- https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-b/instanceGroupManagers/gk3-gemma-cluster-pool-4-fc87e1c8-grp
+- https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-c/instanceGroupManagers/gk3-gemma-cluster-pool-4-50c84bb8-grp
+- https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-f/instanceGroupManagers/gk3-gemma-cluster-pool-4-f11277ce-grp
+- https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-a/instanceGroupManagers/gk3-gemma-cluster-pool-4-ca924886-grp
+- https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-b/instanceGroupManagers/gk3-gemma-cluster-pool-5-4e8c647b-grp
+- https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-c/instanceGroupManagers/gk3-gemma-cluster-pool-5-725b23d7-grp
+- https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-f/instanceGroupManagers/gk3-gemma-cluster-pool-5-15f2897e-grp
+- https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-a/instanceGroupManagers/gk3-gemma-cluster-pool-5-e7da7138-grp
+- https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-b/instanceGroupManagers/gk3-gemma-cluster-pool-6-3579447e-grp
+- https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-c/instanceGroupManagers/gk3-gemma-cluster-pool-6-3aa1710c-grp
+- https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-f/instanceGroupManagers/gk3-gemma-cluster-pool-6-8974c86d-grp
+- https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-a/instanceGroupManagers/gk3-gemma-cluster-pool-6-b8f5d996-grp
+- https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-b/instanceGroupManagers/gk3-gemma-cluster-nap-1k1h47v0-c8f5bf2a-grp
+- https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-c/instanceGroupManagers/gk3-gemma-cluster-nap-1k1h47v0-e2920c55-grp
+- https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-f/instanceGroupManagers/gk3-gemma-cluster-nap-1k1h47v0-fefcf0b3-grp
+- https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-a/instanceGroupManagers/gk3-gemma-cluster-nap-1k1h47v0-540c6bcd-grp
+- https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-b/instanceGroupManagers/gk3-gemma-cluster-nap-1038vj43-7cf317fa-grp
+- https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-c/instanceGroupManagers/gk3-gemma-cluster-nap-1038vj43-2e20c48f-grp
+- https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-a/instanceGroupManagers/gk3-gemma-cluster-nap-1038vj43-e3cbf4e9-grp
+ipAllocationPolicy:
+  clusterIpv4Cidr: 10.5.128.0/17
+  clusterIpv4CidrBlock: 10.5.128.0/17
+  clusterSecondaryRangeName: gke-gemma-cluster-pods-dbeca2c2
+  defaultPodIpv4RangeUtilization: 0.0088
+  podCidrOverprovisionConfig: {}
+  servicesIpv4Cidr: 34.118.224.0/20
+  servicesIpv4CidrBlock: 34.118.224.0/20
+  stackType: IPV4
+  useIpAliases: true
+labelFingerprint: a9dc16a7
+legacyAbac: {}
+location: us-central1
+locations:
+- us-central1-b
+- us-central1-c
+- us-central1-f
+- us-central1-a
+loggingConfig:
+  componentConfig:
+    enableComponents:
+    - SYSTEM_COMPONENTS
+    - WORKLOADS
+loggingService: logging.googleapis.com/kubernetes
+maintenancePolicy:
+  resourceVersion: e3b0c442
+masterAuth:
+  clientCertificateConfig: {}
+  clusterCaCertificate: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUVMVENDQXBXZ0F3SUJBZ0lSQUlCdnBweGl3aHcwdXRIc0ZYcGxqb1F3RFFZSktvWklodmNOQVFFTEJRQXcKTHpFdE1Dc0dBMVVFQXhNa1pUWmxNV0l3WkRRdE1XSTJOaTAwTlRGa0xUZ3dPRFF0TkdKaFptVXhZVGRrWlRJMgpNQ0FYRFRJMU1ETXlNREUzTWpnek5Wb1lEekl3TlRVd016RXpNVGd5T0RNMVdqQXZNUzB3S3dZRFZRUURFeVJsCk5tVXhZakJrTkMweFlqWTJMVFExTVdRdE9EQTROQzAwWW1GbVpURmhOMlJsTWpZd2dnR2lNQTBHQ1NxR1NJYjMKRFFFQkFRVUFBNElCandBd2dnR0tBb0lCZ1FDenRNUWQ5WTBhTkdsczJLanFqSm51TEZzVHJlNzF4WHBOQk9xbQoyQ01ucXZxUWNqTzgrQXhlRFNYR1BROHArWVBzNU1QM0k1QVM0SkxpV2tEMmFoS3ZHVEtWTEFqVmQ4TGFxcm44Ck1uMmxmWUo1NzVPM2xEakxHeng1TFpIR2FFaXZXK25DODRSa0kzSFlRVkREbDB1bnlBNTlHdHRSUHBDV3U1TFUKOHhJTklSQjJkTm5LVHI2YUprV1d5NUpuOGhuay8rQWcxMDB4NzZxeGd6SUpRYllXbkZSamRXdURQakU0TTZ1ZQp1WE9jT3FTeU93NWM0SVFCK0kyMld1SzcrKzlHQ0pzSEdyYXlwZDFBK2RObFFpYVU4ZHcweEJlRCtMMy90QUhlCkRJRDFveVp5UDM1dnFJWnE3cWh6Q084RGk0dzRzcUVhZStNazJ6K1JHQm5qa045K0xrL1dIYUdVcEd4ZWpYZjcKQm9LWDFSSHFmZ3BrakZ6ZXAralJYWVZXTzQrK3pnS0VhT3RpbGZydUtlSDBVWi9HR1p0UGszNU91ODVvbmtPRApBTm90ZHY1QkJvNHZYUjVJWDRHRkRlUkUrdlRUY2lyZFBabE1kYlFXbCtHVkNRaG15dGx3b3kyZFFLdkc5Q1g3CnJVYkNuUkZRVDB4bjN6WnVUZmtsTXVRTjJ4MENBd0VBQWFOQ01FQXdEZ1lEVlIwUEFRSC9CQVFEQWdJRU1BOEcKQTFVZEV3RUIvd1FGTUFNQkFmOHdIUVlEVlIwT0JCWUVGTHJHMVpLL0U0NVdsOHFicHdhUGpGV3dFYllVTUEwRwpDU3FHU0liM0RRRUJDd1VBQTRJQmdRQ01vYmdRT1pwOGtxcXlvejIzUjJGeDFscVljay8wN0hrV0FKc0lmQWNrCjdSMnFGSTErSDVpY1ZablQvZEVQMmtScTF2ZjlDVlRFbGlieWlIODlYaFE2M0R6dmgxbDZVUmRwYklsSHdpODcKV0d3K1FVeGwveElWeEg1bHlpcnBnWG1hZEgrZ0kxS1AzdmkyZHZ5ckJpZmxuVHYwR2MvOGcwZ3c5dVY4V3h5TQo1Q090aFJNMnNJa3EyUEcvcDAxbWxMbFBFWlE0NXBEYU42TXdTZkd4OVloLzJWTjFwNmRnQjJ0V3IvMXNJaytNCjMwWSsrYllsUUVRUkgySzFySGMxVDVVY3ZyM3F5QisrcTVXVkszVlVIOE5XNGRHTHV1eFBPU0lqY2pxVUtMSE0KaEV6Q1BYcVVMWWJZaGEyaW1WU0gwamdmL2MzUE5uR1JOb1M5Tjl0bkdNWlplOUdpanE4ZCtJNExTRnB6KzhGUgp4Smt3TThjK1IrSTdiZDIrVktVMGdkYjEzaFd2TmZ0SzVIWCtHME9JaXduV0ZhOVFQcHJPZGhJdWdaWW1XOVl1CmhTNzVGbk40dmttNGNTRU9kTkFYYW9YWjVsK0IxRHRVRkw4aEVmclp0WTBrS0dmaEpscjZBakkxQitJYXdlZi8KaUtjTFhhd1NsUWFUMVR6djllTy95RkE9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+masterAuthorizedNetworksConfig:
+  gcpPublicCidrsAccessEnabled: true
+monitoringConfig:
+  advancedDatapathObservabilityConfig:
+    enableMetrics: true
+  componentConfig:
+    enableComponents:
+    - SYSTEM_COMPONENTS
+    - STORAGE
+    - HPA
+    - POD
+    - DAEMONSET
+    - DEPLOYMENT
+    - STATEFULSET
+    - JOBSET
+    - CADVISOR
+    - KUBELET
+    - DCGM
+  managedPrometheusConfig:
+    enabled: true
+monitoringService: monitoring.googleapis.com/kubernetes
+name: gemma-cluster
+network: default
+networkConfig:
+  datapathProvider: ADVANCED_DATAPATH
+  dnsConfig:
+    clusterDns: CLOUD_DNS
+    clusterDnsDomain: cluster.local
+    clusterDnsScope: CLUSTER_SCOPE
+  enableIntraNodeVisibility: true
+  gatewayApiConfig:
+    channel: CHANNEL_STANDARD
+  network: projects/gemma-test-deployment/global/networks/default
+  serviceExternalIpsConfig: {}
+  subnetwork: projects/gemma-test-deployment/regions/us-central1/subnetworks/default
+nodeConfig:
+  diskSizeGb: 100
+  diskType: pd-balanced
+  effectiveCgroupMode: EFFECTIVE_CGROUP_MODE_V2
+  gvnic:
+    enabled: true
+  imageType: COS_CONTAINERD
+  kubeletConfig:
+    insecureKubeletReadonlyPortEnabled: false
+  machineType: e2-small
+  metadata:
+    disable-legacy-endpoints: 'true'
+  oauthScopes:
+  - https://www.googleapis.com/auth/devstorage.read_only
+  - https://www.googleapis.com/auth/logging.write
+  - https://www.googleapis.com/auth/monitoring
+  - https://www.googleapis.com/auth/service.management.readonly
+  - https://www.googleapis.com/auth/servicecontrol
+  - https://www.googleapis.com/auth/trace.append
+  reservationAffinity:
+    consumeReservationType: NO_RESERVATION
+  resourceLabels:
+    goog-gke-node-pool-provisioning-model: on-demand
+  serviceAccount: default
+  shieldedInstanceConfig:
+    enableIntegrityMonitoring: true
+    enableSecureBoot: true
+  taints:
+  - effect: NO_SCHEDULE
+    key: cloud.google.com/gke-quick-remove
+    value: 'true'
+  windowsNodeConfig: {}
+  workloadMetadataConfig:
+    mode: GKE_METADATA
+nodePoolAutoConfig:
+  nodeKubeletConfig:
+    insecureKubeletReadonlyPortEnabled: false
+nodePoolDefaults:
+  nodeConfigDefaults:
+    gcfsConfig:
+      enabled: true
+    loggingConfig:
+      variantConfig:
+        variant: DEFAULT
+    nodeKubeletConfig:
+      insecureKubeletReadonlyPortEnabled: false
+nodePools:
+- autoscaling:
+    enabled: true
+    locationPolicy: BALANCED
+    maxNodeCount: 1000
+  config:
+    diskSizeGb: 100
+    diskType: pd-balanced
+    effectiveCgroupMode: EFFECTIVE_CGROUP_MODE_V2
+    gvnic:
+      enabled: true
+    imageType: COS_CONTAINERD
+    kubeletConfig:
+      insecureKubeletReadonlyPortEnabled: false
+    machineType: e2-small
+    metadata:
+      disable-legacy-endpoints: 'true'
+    oauthScopes:
+    - https://www.googleapis.com/auth/devstorage.read_only
+    - https://www.googleapis.com/auth/logging.write
+    - https://www.googleapis.com/auth/monitoring
+    - https://www.googleapis.com/auth/service.management.readonly
+    - https://www.googleapis.com/auth/servicecontrol
+    - https://www.googleapis.com/auth/trace.append
+    reservationAffinity:
+      consumeReservationType: NO_RESERVATION
+    resourceLabels:
+      goog-gke-node-pool-provisioning-model: on-demand
+    serviceAccount: default
+    shieldedInstanceConfig:
+      enableIntegrityMonitoring: true
+      enableSecureBoot: true
+    taints:
+    - effect: NO_SCHEDULE
+      key: cloud.google.com/gke-quick-remove
+      value: 'true'
+    windowsNodeConfig: {}
+    workloadMetadataConfig:
+      mode: GKE_METADATA
+  etag: 99120518-f6ec-4286-a19f-a1de2c651f5a
+  initialNodeCount: 1
+  instanceGroupUrls:
+  - https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-b/instanceGroupManagers/gk3-gemma-cluster-default-pool-e835544d-grp
+  locations:
+  - us-central1-b
+  management:
+    autoRepair: true
+    autoUpgrade: true
+  maxPodsConstraint:
+    maxPodsPerNode: '32'
+  name: default-pool
+  networkConfig:
+    podIpv4CidrBlock: 10.5.128.0/17
+    podIpv4RangeUtilization: 0.0088
+    podRange: gke-gemma-cluster-pods-dbeca2c2
+  podIpv4CidrSize: 26
+  selfLink: https://container.googleapis.com/v1/projects/gemma-test-deployment/locations/us-central1/clusters/gemma-cluster/nodePools/default-pool
+  status: RUNNING
+  upgradeSettings:
+    maxSurge: 1
+    strategy: SURGE
+  version: 1.32.2-gke.1182000
+- autoscaling:
+    enabled: true
+    locationPolicy: BALANCED
+    maxNodeCount: 1000
+  config:
+    diskSizeGb: 100
+    diskType: pd-balanced
+    effectiveCgroupMode: EFFECTIVE_CGROUP_MODE_V2
+    gvnic:
+      enabled: true
+    imageType: COS_CONTAINERD
+    kubeletConfig:
+      insecureKubeletReadonlyPortEnabled: false
+    machineType: e2-medium
+    metadata:
+      disable-legacy-endpoints: 'true'
+    oauthScopes:
+    - https://www.googleapis.com/auth/devstorage.read_only
+    - https://www.googleapis.com/auth/logging.write
+    - https://www.googleapis.com/auth/monitoring
+    - https://www.googleapis.com/auth/service.management.readonly
+    - https://www.googleapis.com/auth/servicecontrol
+    - https://www.googleapis.com/auth/trace.append
+    reservationAffinity:
+      consumeReservationType: NO_RESERVATION
+    resourceLabels:
+      goog-gke-node-pool-provisioning-model: on-demand
+    serviceAccount: default
+    shieldedInstanceConfig:
+      enableIntegrityMonitoring: true
+      enableSecureBoot: true
+    windowsNodeConfig: {}
+    workloadMetadataConfig:
+      mode: GKE_METADATA
+  etag: 330d47fe-c3ae-480f-8823-a3b8b5bca243
+  instanceGroupUrls:
+  - https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-b/instanceGroupManagers/gk3-gemma-cluster-pool-1-7d8e2613-grp
+  - https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-c/instanceGroupManagers/gk3-gemma-cluster-pool-1-eccbcba2-grp
+  - https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-f/instanceGroupManagers/gk3-gemma-cluster-pool-1-b7057a34-grp
+  - https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-a/instanceGroupManagers/gk3-gemma-cluster-pool-1-113b3a52-grp
+  locations:
+  - us-central1-b
+  - us-central1-c
+  - us-central1-f
+  - us-central1-a
+  management:
+    autoRepair: true
+    autoUpgrade: true
+  maxPodsConstraint:
+    maxPodsPerNode: '32'
+  name: pool-1
+  networkConfig:
+    podIpv4CidrBlock: 10.5.128.0/17
+    podIpv4RangeUtilization: 0.0088
+    podRange: gke-gemma-cluster-pods-dbeca2c2
+  podIpv4CidrSize: 26
+  selfLink: https://container.googleapis.com/v1/projects/gemma-test-deployment/locations/us-central1/clusters/gemma-cluster/nodePools/pool-1
+  status: RUNNING
+  upgradeSettings:
+    maxSurge: 1
+    strategy: SURGE
+  version: 1.32.2-gke.1182000
+- autoscaling:
+    enabled: true
+    locationPolicy: BALANCED
+    maxNodeCount: 1000
+  config:
+    diskSizeGb: 100
+    diskType: pd-balanced
+    effectiveCgroupMode: EFFECTIVE_CGROUP_MODE_V2
+    gvnic:
+      enabled: true
+    imageType: COS_CONTAINERD
+    kubeletConfig:
+      insecureKubeletReadonlyPortEnabled: false
+    machineType: e2-standard-2
+    metadata:
+      disable-legacy-endpoints: 'true'
+    oauthScopes:
+    - https://www.googleapis.com/auth/devstorage.read_only
+    - https://www.googleapis.com/auth/logging.write
+    - https://www.googleapis.com/auth/monitoring
+    - https://www.googleapis.com/auth/service.management.readonly
+    - https://www.googleapis.com/auth/servicecontrol
+    - https://www.googleapis.com/auth/trace.append
+    reservationAffinity:
+      consumeReservationType: NO_RESERVATION
+    resourceLabels:
+      goog-gke-node-pool-provisioning-model: on-demand
+    serviceAccount: default
+    shieldedInstanceConfig:
+      enableIntegrityMonitoring: true
+      enableSecureBoot: true
+    windowsNodeConfig: {}
+    workloadMetadataConfig:
+      mode: GKE_METADATA
+  etag: de64d261-f510-4dd6-9b69-71a497112f18
+  instanceGroupUrls:
+  - https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-b/instanceGroupManagers/gk3-gemma-cluster-pool-2-3e6f110d-grp
+  - https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-c/instanceGroupManagers/gk3-gemma-cluster-pool-2-32840c77-grp
+  - https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-f/instanceGroupManagers/gk3-gemma-cluster-pool-2-ca24b76a-grp
+  - https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-a/instanceGroupManagers/gk3-gemma-cluster-pool-2-5f27cee2-grp
+  locations:
+  - us-central1-b
+  - us-central1-c
+  - us-central1-f
+  - us-central1-a
+  management:
+    autoRepair: true
+    autoUpgrade: true
+  maxPodsConstraint:
+    maxPodsPerNode: '32'
+  name: pool-2
+  networkConfig:
+    podIpv4CidrBlock: 10.5.128.0/17
+    podIpv4RangeUtilization: 0.0088
+    podRange: gke-gemma-cluster-pods-dbeca2c2
+  podIpv4CidrSize: 26
+  selfLink: https://container.googleapis.com/v1/projects/gemma-test-deployment/locations/us-central1/clusters/gemma-cluster/nodePools/pool-2
+  status: RUNNING
+  upgradeSettings:
+    maxSurge: 1
+    strategy: SURGE
+  version: 1.32.2-gke.1182000
+- autoscaling:
+    enabled: true
+    locationPolicy: BALANCED
+    maxNodeCount: 1000
+  config:
+    diskSizeGb: 100
+    diskType: pd-balanced
+    effectiveCgroupMode: EFFECTIVE_CGROUP_MODE_V2
+    gvnic:
+      enabled: true
+    imageType: COS_CONTAINERD
+    kubeletConfig:
+      insecureKubeletReadonlyPortEnabled: false
+    machineType: e2-standard-4
+    metadata:
+      disable-legacy-endpoints: 'true'
+    oauthScopes:
+    - https://www.googleapis.com/auth/devstorage.read_only
+    - https://www.googleapis.com/auth/logging.write
+    - https://www.googleapis.com/auth/monitoring
+    - https://www.googleapis.com/auth/service.management.readonly
+    - https://www.googleapis.com/auth/servicecontrol
+    - https://www.googleapis.com/auth/trace.append
+    reservationAffinity:
+      consumeReservationType: NO_RESERVATION
+    resourceLabels:
+      goog-gke-node-pool-provisioning-model: on-demand
+    serviceAccount: default
+    shieldedInstanceConfig:
+      enableIntegrityMonitoring: true
+      enableSecureBoot: true
+    windowsNodeConfig: {}
+    workloadMetadataConfig:
+      mode: GKE_METADATA
+  etag: acb641ef-6ff8-403b-82a8-370672175d37
+  instanceGroupUrls:
+  - https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-b/instanceGroupManagers/gk3-gemma-cluster-pool-3-509cfe47-grp
+  - https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-c/instanceGroupManagers/gk3-gemma-cluster-pool-3-17b30870-grp
+  - https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-f/instanceGroupManagers/gk3-gemma-cluster-pool-3-b0b20daa-grp
+  - https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-a/instanceGroupManagers/gk3-gemma-cluster-pool-3-25a643c1-grp
+  locations:
+  - us-central1-b
+  - us-central1-c
+  - us-central1-f
+  - us-central1-a
+  management:
+    autoRepair: true
+    autoUpgrade: true
+  maxPodsConstraint:
+    maxPodsPerNode: '32'
+  name: pool-3
+  networkConfig:
+    podIpv4CidrBlock: 10.5.128.0/17
+    podIpv4RangeUtilization: 0.0088
+    podRange: gke-gemma-cluster-pods-dbeca2c2
+  podIpv4CidrSize: 26
+  selfLink: https://container.googleapis.com/v1/projects/gemma-test-deployment/locations/us-central1/clusters/gemma-cluster/nodePools/pool-3
+  status: RUNNING
+  upgradeSettings:
+    maxSurge: 1
+    strategy: SURGE
+  version: 1.32.2-gke.1182000
+- autoscaling:
+    enabled: true
+    locationPolicy: BALANCED
+    maxNodeCount: 1000
+  config:
+    diskSizeGb: 100
+    diskType: pd-balanced
+    effectiveCgroupMode: EFFECTIVE_CGROUP_MODE_V2
+    gvnic:
+      enabled: true
+    imageType: COS_CONTAINERD
+    kubeletConfig:
+      insecureKubeletReadonlyPortEnabled: false
+    machineType: e2-standard-8
+    metadata:
+      disable-legacy-endpoints: 'true'
+    oauthScopes:
+    - https://www.googleapis.com/auth/devstorage.read_only
+    - https://www.googleapis.com/auth/logging.write
+    - https://www.googleapis.com/auth/monitoring
+    - https://www.googleapis.com/auth/service.management.readonly
+    - https://www.googleapis.com/auth/servicecontrol
+    - https://www.googleapis.com/auth/trace.append
+    reservationAffinity:
+      consumeReservationType: NO_RESERVATION
+    resourceLabels:
+      goog-gke-node-pool-provisioning-model: on-demand
+    serviceAccount: default
+    shieldedInstanceConfig:
+      enableIntegrityMonitoring: true
+      enableSecureBoot: true
+    windowsNodeConfig: {}
+    workloadMetadataConfig:
+      mode: GKE_METADATA
+  etag: df6eb28f-cfaa-416c-b562-0fb63ff84b38
+  instanceGroupUrls:
+  - https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-b/instanceGroupManagers/gk3-gemma-cluster-pool-4-fc87e1c8-grp
+  - https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-c/instanceGroupManagers/gk3-gemma-cluster-pool-4-50c84bb8-grp
+  - https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-f/instanceGroupManagers/gk3-gemma-cluster-pool-4-f11277ce-grp
+  - https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-a/instanceGroupManagers/gk3-gemma-cluster-pool-4-ca924886-grp
+  locations:
+  - us-central1-b
+  - us-central1-c
+  - us-central1-f
+  - us-central1-a
+  management:
+    autoRepair: true
+    autoUpgrade: true
+  maxPodsConstraint:
+    maxPodsPerNode: '32'
+  name: pool-4
+  networkConfig:
+    podIpv4CidrBlock: 10.5.128.0/17
+    podIpv4RangeUtilization: 0.0088
+    podRange: gke-gemma-cluster-pods-dbeca2c2
+  podIpv4CidrSize: 26
+  selfLink: https://container.googleapis.com/v1/projects/gemma-test-deployment/locations/us-central1/clusters/gemma-cluster/nodePools/pool-4
+  status: RUNNING
+  upgradeSettings:
+    maxSurge: 1
+    strategy: SURGE
+  version: 1.32.2-gke.1182000
+- autoscaling:
+    enabled: true
+    locationPolicy: BALANCED
+    maxNodeCount: 1000
+  config:
+    diskSizeGb: 100
+    diskType: pd-balanced
+    effectiveCgroupMode: EFFECTIVE_CGROUP_MODE_V2
+    gvnic:
+      enabled: true
+    imageType: COS_CONTAINERD
+    kubeletConfig:
+      insecureKubeletReadonlyPortEnabled: false
+    machineType: e2-standard-16
+    metadata:
+      disable-legacy-endpoints: 'true'
+    oauthScopes:
+    - https://www.googleapis.com/auth/devstorage.read_only
+    - https://www.googleapis.com/auth/logging.write
+    - https://www.googleapis.com/auth/monitoring
+    - https://www.googleapis.com/auth/service.management.readonly
+    - https://www.googleapis.com/auth/servicecontrol
+    - https://www.googleapis.com/auth/trace.append
+    reservationAffinity:
+      consumeReservationType: NO_RESERVATION
+    resourceLabels:
+      goog-gke-node-pool-provisioning-model: on-demand
+    serviceAccount: default
+    shieldedInstanceConfig:
+      enableIntegrityMonitoring: true
+      enableSecureBoot: true
+    windowsNodeConfig: {}
+    workloadMetadataConfig:
+      mode: GKE_METADATA
+  etag: 60675695-ac27-4ca5-99c4-80835b35e545
+  instanceGroupUrls:
+  - https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-b/instanceGroupManagers/gk3-gemma-cluster-pool-5-4e8c647b-grp
+  - https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-c/instanceGroupManagers/gk3-gemma-cluster-pool-5-725b23d7-grp
+  - https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-f/instanceGroupManagers/gk3-gemma-cluster-pool-5-15f2897e-grp
+  - https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-a/instanceGroupManagers/gk3-gemma-cluster-pool-5-e7da7138-grp
+  locations:
+  - us-central1-b
+  - us-central1-c
+  - us-central1-f
+  - us-central1-a
+  management:
+    autoRepair: true
+    autoUpgrade: true
+  maxPodsConstraint:
+    maxPodsPerNode: '32'
+  name: pool-5
+  networkConfig:
+    podIpv4CidrBlock: 10.5.128.0/17
+    podIpv4RangeUtilization: 0.0088
+    podRange: gke-gemma-cluster-pods-dbeca2c2
+  podIpv4CidrSize: 26
+  selfLink: https://container.googleapis.com/v1/projects/gemma-test-deployment/locations/us-central1/clusters/gemma-cluster/nodePools/pool-5
+  status: RUNNING
+  upgradeSettings:
+    maxSurge: 1
+    strategy: SURGE
+  version: 1.32.2-gke.1182000
+- autoscaling:
+    enabled: true
+    locationPolicy: BALANCED
+    maxNodeCount: 1000
+  config:
+    diskSizeGb: 100
+    diskType: pd-balanced
+    effectiveCgroupMode: EFFECTIVE_CGROUP_MODE_V2
+    gvnic:
+      enabled: true
+    imageType: COS_CONTAINERD
+    kubeletConfig:
+      insecureKubeletReadonlyPortEnabled: false
+    machineType: e2-standard-32
+    metadata:
+      disable-legacy-endpoints: 'true'
+    oauthScopes:
+    - https://www.googleapis.com/auth/devstorage.read_only
+    - https://www.googleapis.com/auth/logging.write
+    - https://www.googleapis.com/auth/monitoring
+    - https://www.googleapis.com/auth/service.management.readonly
+    - https://www.googleapis.com/auth/servicecontrol
+    - https://www.googleapis.com/auth/trace.append
+    reservationAffinity:
+      consumeReservationType: NO_RESERVATION
+    resourceLabels:
+      goog-gke-node-pool-provisioning-model: on-demand
+    serviceAccount: default
+    shieldedInstanceConfig:
+      enableIntegrityMonitoring: true
+      enableSecureBoot: true
+    windowsNodeConfig: {}
+    workloadMetadataConfig:
+      mode: GKE_METADATA
+  etag: 6bca7cd2-ebe8-448b-9da6-ff175b110d0c
+  instanceGroupUrls:
+  - https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-b/instanceGroupManagers/gk3-gemma-cluster-pool-6-3579447e-grp
+  - https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-c/instanceGroupManagers/gk3-gemma-cluster-pool-6-3aa1710c-grp
+  - https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-f/instanceGroupManagers/gk3-gemma-cluster-pool-6-8974c86d-grp
+  - https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-a/instanceGroupManagers/gk3-gemma-cluster-pool-6-b8f5d996-grp
+  locations:
+  - us-central1-b
+  - us-central1-c
+  - us-central1-f
+  - us-central1-a
+  management:
+    autoRepair: true
+    autoUpgrade: true
+  maxPodsConstraint:
+    maxPodsPerNode: '32'
+  name: pool-6
+  networkConfig:
+    podIpv4CidrBlock: 10.5.128.0/17
+    podIpv4RangeUtilization: 0.0088
+    podRange: gke-gemma-cluster-pods-dbeca2c2
+  podIpv4CidrSize: 26
+  selfLink: https://container.googleapis.com/v1/projects/gemma-test-deployment/locations/us-central1/clusters/gemma-cluster/nodePools/pool-6
+  status: RUNNING
+  upgradeSettings:
+    maxSurge: 1
+    strategy: SURGE
+  version: 1.32.2-gke.1182000
+- autoscaling:
+    autoprovisioned: true
+    enabled: true
+    locationPolicy: BALANCED
+    maxNodeCount: 1000
+  config:
+    diskSizeGb: 100
+    diskType: pd-balanced
+    effectiveCgroupMode: EFFECTIVE_CGROUP_MODE_V2
+    gvnic:
+      enabled: true
+    imageType: COS_CONTAINERD
+    kubeletConfig:
+      insecureKubeletReadonlyPortEnabled: false
+    machineType: ek-standard-32
+    metadata:
+      disable-legacy-endpoints: 'true'
+    oauthScopes:
+    - https://www.googleapis.com/auth/devstorage.read_only
+    - https://www.googleapis.com/auth/logging.write
+    - https://www.googleapis.com/auth/monitoring
+    - https://www.googleapis.com/auth/service.management.readonly
+    - https://www.googleapis.com/auth/servicecontrol
+    - https://www.googleapis.com/auth/trace.append
+    reservationAffinity:
+      consumeReservationType: NO_RESERVATION
+    resourceLabels:
+      goog-gke-node-pool-provisioning-model: on-demand
+    serviceAccount: default
+    shieldedInstanceConfig:
+      enableIntegrityMonitoring: true
+      enableSecureBoot: true
+    windowsNodeConfig: {}
+    workloadMetadataConfig:
+      mode: GKE_METADATA
+  etag: 4e793608-31a7-4c36-a2dc-376574aa21f5
+  instanceGroupUrls:
+  - https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-b/instanceGroupManagers/gk3-gemma-cluster-nap-1k1h47v0-c8f5bf2a-grp
+  - https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-c/instanceGroupManagers/gk3-gemma-cluster-nap-1k1h47v0-e2920c55-grp
+  - https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-f/instanceGroupManagers/gk3-gemma-cluster-nap-1k1h47v0-fefcf0b3-grp
+  - https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-a/instanceGroupManagers/gk3-gemma-cluster-nap-1k1h47v0-540c6bcd-grp
+  locations:
+  - us-central1-b
+  - us-central1-c
+  - us-central1-f
+  - us-central1-a
+  management:
+    autoRepair: true
+    autoUpgrade: true
+  maxPodsConstraint:
+    maxPodsPerNode: '64'
+  name: nap-1k1h47v0
+  networkConfig:
+    podIpv4CidrBlock: 10.5.128.0/17
+    podIpv4RangeUtilization: 0.0088
+    podRange: gke-gemma-cluster-pods-dbeca2c2
+  placementPolicy: {}
+  podIpv4CidrSize: 25
+  selfLink: https://container.googleapis.com/v1/projects/gemma-test-deployment/locations/us-central1/clusters/gemma-cluster/nodePools/nap-1k1h47v0
+  status: RUNNING
+  upgradeSettings:
+    maxSurge: 1
+    strategy: SURGE
+  version: 1.32.2-gke.1182000
+- autoscaling:
+    autoprovisioned: true
+    enabled: true
+    locationPolicy: BALANCED
+    maxNodeCount: 1000
+  config:
+    accelerators:
+    - acceleratorCount: '1'
+      acceleratorType: nvidia-l4
+      gpuDriverInstallationConfig:
+        gpuDriverVersion: DEFAULT
+    diskSizeGb: 100
+    diskType: pd-balanced
+    effectiveCgroupMode: EFFECTIVE_CGROUP_MODE_V2
+    gvnic:
+      enabled: true
+    imageType: COS_CONTAINERD
+    kubeletConfig:
+      insecureKubeletReadonlyPortEnabled: false
+    labels:
+      cloud.google.com/gke-accelerator-count: '1'
+      cloud.google.com/gke-gpu-driver-version: default
+    machineType: g2-standard-4
+    metadata:
+      disable-legacy-endpoints: 'true'
+    oauthScopes:
+    - https://www.googleapis.com/auth/devstorage.read_only
+    - https://www.googleapis.com/auth/logging.write
+    - https://www.googleapis.com/auth/monitoring
+    - https://www.googleapis.com/auth/service.management.readonly
+    - https://www.googleapis.com/auth/servicecontrol
+    - https://www.googleapis.com/auth/trace.append
+    reservationAffinity:
+      consumeReservationType: NO_RESERVATION
+    resourceLabels:
+      goog-gke-accelerator-type: nvidia-l4
+      goog-gke-node-pool-provisioning-model: on-demand
+    serviceAccount: default
+    shieldedInstanceConfig:
+      enableIntegrityMonitoring: true
+      enableSecureBoot: true
+    taints:
+    - effect: NO_SCHEDULE
+      key: nvidia.com/gpu
+      value: present
+    windowsNodeConfig: {}
+    workloadMetadataConfig:
+      mode: GKE_METADATA
+  etag: f4477076-2492-433f-bb89-aab5ea256bd2
+  instanceGroupUrls:
+  - https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-b/instanceGroupManagers/gk3-gemma-cluster-nap-1038vj43-7cf317fa-grp
+  - https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-c/instanceGroupManagers/gk3-gemma-cluster-nap-1038vj43-2e20c48f-grp
+  - https://www.googleapis.com/compute/v1/projects/gemma-test-deployment/zones/us-central1-a/instanceGroupManagers/gk3-gemma-cluster-nap-1038vj43-e3cbf4e9-grp
+  locations:
+  - us-central1-b
+  - us-central1-c
+  - us-central1-a
+  management:
+    autoRepair: true
+    autoUpgrade: true
+  maxPodsConstraint:
+    maxPodsPerNode: '16'
+  name: nap-1038vj43
+  networkConfig:
+    podIpv4CidrBlock: 10.5.128.0/17
+    podIpv4RangeUtilization: 0.0088
+    podRange: gke-gemma-cluster-pods-dbeca2c2
+  placementPolicy: {}
+  podIpv4CidrSize: 27
+  selfLink: https://container.googleapis.com/v1/projects/gemma-test-deployment/locations/us-central1/clusters/gemma-cluster/nodePools/nap-1038vj43
+  status: RUNNING
+  upgradeSettings:
+    maxSurge: 1
+    strategy: SURGE
+  version: 1.32.2-gke.1182000
+notificationConfig:
+  pubsub: {}
+podAutoscaling:
+  hpaProfile: PERFORMANCE
+privateClusterConfig:
+  privateEndpoint: 10.128.0.23
+  publicEndpoint: 35.193.212.119
+rbacBindingConfig:
+  enableInsecureBindingSystemAuthenticated: false
+  enableInsecureBindingSystemUnauthenticated: false
+releaseChannel:
+  channel: RAPID
+satisfiesPzi: false
+satisfiesPzs: false
+securityPostureConfig:
+  mode: BASIC
+  vulnerabilityMode: VULNERABILITY_MODE_UNSPECIFIED
+selfLink: https://container.googleapis.com/v1/projects/gemma-test-deployment/locations/us-central1/clusters/gemma-cluster
+servicesIpv4Cidr: 34.118.224.0/20
+shieldedNodes:
+  enabled: true
+status: RUNNING
+subnetwork: default
+verticalPodAutoscaling:
+  enabled: true
+workloadIdentityConfig:
+  workloadPool: gemma-test-deployment.svc.id.goog
+zone: us-central1
