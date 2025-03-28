@@ -15,8 +15,11 @@
 - Create a VPC named 'default', if it does not exist.  
 - In IAM $\rightarrow$ Organizational policies edit the policy `constraints/compute.vmExternalIpAccess` and add a new rule **Allow all**
 - In IAM $\rightarrow$ Service accounts create a default service account `<project_number>-compute@developer.gserviceaccount.com` with permissions `Kubernetes Engine Cluster Admin` and `Monitoring Admin` if it does not exist, or does not have such permissions.
-- Accept licence of the model you want to deploy in Hugging Face and get an access token.
-- Install locust load generator (`pip install locust`)
+- in Hugging Face, accept licence of the model you want to deploy  and get an access token.
+- Install 
+    - `kubectl`, with `gcloud components install kubectl` or check [this](https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-access-for-kubectl)
+    - `helm`, follow [this](https://helm.sh/docs/intro/install/)
+    - locust load generator (`pip install locust`)
 
 **NOTE**: These policies and configurations could be set more restrictive according to particular needs.
 
@@ -52,8 +55,6 @@ for a list of available model strings
 
     > ls manifests/01*
     > python src/apicalls.py
-
-
 
 ### 3. Deploy service and monitoring
 
