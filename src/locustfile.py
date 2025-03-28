@@ -31,15 +31,12 @@ class LLMUser(HttpUser):
         num_tokens = np.random.randint(1000) + 128
 
         model = apicalls.get_model(os.environ['MODELSTR'].strip())
-        headerhost = os.environ['HEADERHOST'].strip()
 
         path = model.get_genai_path()
         data = model.build_request_data(user_prompt=question, max_tokens=num_tokens)
 
-        headers = {"Content-Type": "application/json"}
-
-        if headerhost is not None and len(headerhost)>0:
-            headers['Host'] = headerhost
+        headers = { "Content-Type": "application/json", 'Host': 'llm-service' }
+        #headers = { "Content-Type": "application/json", 'Host': '34.132.35.162' }
         
         # A POST request to the API
         r = self.client.post(path, 

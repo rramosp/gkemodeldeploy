@@ -28,14 +28,15 @@
 https://cloud.google.com/kubernetes-engine/docs/tutorials/serve-gemma-gpu-tgi)
 - [Optimize Pod autoscaling based on metrics](https://cloud.google.com/kubernetes-engine/docs/tutorials/autoscaling-metrics)
 - [Custom Metrics - Stackdriver Adapter](https://github.com/GoogleCloudPlatform/k8s-stackdriver/blob/master/custom-metrics-stackdriver-adapter/README.md)
-
+- [Scaling applications on GKE with k8/keda](https://medium.com/@deepeshjaiswal6734/scaling-applications-on-gke-using-keda-http-add-on-v0-1-0-on-gke-b7e162f32367)
 
 ## Deploy
 
 ### 1. Deploy cluster
 
-    > gcloud container clusters create-auto gemmacluster --project=gemma-test-deployment --region=us-central1 --release-channel=rapid
-    > gcloud container clusters get-credentials gemmacluster --location=us-central1
+    > export CLUSTERNAME=mycluster
+    > gcloud container clusters create-auto $CLUSTERNAME --project=gemma-test-deployment --region=us-central1 --release-channel=rapid
+    > gcloud container clusters get-credentials $CLUSTERNAME --location=us-central1
     > kubectl create secret generic hf-secret --from-literal=hf_api_token=<YOUR_HF_TOKEN>
     > alias k=kubeflow
 
@@ -47,12 +48,21 @@ or
 
     > k apply -f manifests/01_deployment_llama3_8b.yaml  
 
-### 3. Deploy load balancing and monitoring
+for a list of available model strings
+
+    > ls manifests/01*
+    > python src/apicalls.py
+
+
+
+### 3. Deploy service and monitoring
 
     # deploy balancer and scaling
     > k apply -f manifests/02_permissions.yaml
-    > k apply -f manifests/03_loadbalancer.yaml
+    > k apply -f manifests/03_service.yaml
     > k apply -f manifests/04_monitor.yaml 
+
+the service deployed in `03_service` automatically load balances across the available pods
 
 ### 4. Deploy autoscaling (0 to n, based on http requests)
 
@@ -60,23 +70,12 @@ or
     > helm repo update
     > helm install keda kedacore/keda --namespace keda --create-namespace
     > helm install http-add-on kedacore/keda-add-ons-http --namespace keda --set interceptor.responseHeaderTimeout=10s
-    > k apply -f manifests/05-keda-scale2zero.yaml
-    
-### 4. (Alternative) Deploy autoscaling (1 to n, based on llm metrics)
+    > k apply -f manifests/05_autoscale.yaml
+    > k patch service keda-add-ons-http-interceptor-proxy -n keda -p '{"spec": {"type": "LoadBalancer"}}'
 
+Last line exposes the service with 0 to N scaling through an external IP
 
-    > gcloud iam service-accounts add-iam-policy-binding --role \
-         roles/iam.workloadIdentityUser --member \
-         "serviceAccount:gemma-test-deployment.svc.id.goog[custom-metrics/custom-metrics-stackdriver-adapter]" \
-         883536042426-compute@developer.gserviceaccount.com
-
-    > k apply -f manifests/06-enable-custom-metrics.yaml
-
-    > kubectl annotate serviceaccount --namespace custom-metrics \
-         custom-metrics-stackdriver-adapter \
-         iam.gke.io/gcp-service-account=883536042426-compute@developer.gserviceaccount.com
-
-    > k apply -f manifests/07-hpa.yaml
+See `05-autoscale` for scaling parameters (timeouts, etc.)
 
 ### 5. Deploy UI (optional)
 
@@ -87,11 +86,31 @@ and open your browser at http://localhost:8080
 
 ### Monitor your cluster
 
-    > watch -n 1 kubectl get deployments,pods,nodes,services
+in a separate terminal window
 
-or
+    > watch -n 1 kubectl get --ignore-not-found=true deployments,pods,nodes,services,podmonitoring,HTTPScaledObject
 
-    > watch -n 1 kubectl get deployments,pods,nodes,services,podmonitoring,HTTPScaledObject
+### Try it out
+
+first get the external IP through which the autoscaling service is avaiable
+
+    > k get services keda-add-ons-http-interceptor-proxy -n keda
+
+    NAME                                  TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)          AGE
+    keda-add-ons-http-interceptor-proxy   LoadBalancer   34.118.239.94   34.132.35.162   8080:32274/TCP   19h
+
+note down the EXTERNAL-IP and run the following command with the model you selected in step 1 above.
+
+    > python src/generate_text.py --model llama3-8b  --endpoint http://<EXTERNAL_IP>:8080
+
+
+### Load test your model
+
+edit `src/locust.sh` and include your model id and endpoint (external IP from above)
+
+run
+
+    > src/locust.sh
 
 
 ## Sanity checks
@@ -113,6 +132,10 @@ After a few minutes you should see at least one pod on one node up and running
     NAME                                           STATUS   ROLES    AGE   VERSION
     node/gk3-gemmacluster-nap-1bwi7nsq-ce6f4ef9-bdpr   Ready    <none>   31m   v1.32.2-gke.1182001
     node/gk3-gemmacluster-nap-1wr2jc8m-01e7233c-7btk   Ready    <none>   25m   v1.32.2-gke.1182001
+
+get the machine types of the cluster nodes
+
+    > kubectl get nodes -o jsonpath='{range .items[*]}{.metadata.name}:{.metadata.labels.node\.kubernetes\.io/instance-type} {"\n"}{end}'
 
 Check pod is working (use the pod id you got above). You should get some text about WW2. It might take a few extra mins since the pod is running to start up the model server.
 
@@ -154,7 +177,27 @@ Generate a load and observe model serving performance
 You should also see metrics at: https://console.cloud.google.com/monitoring/metrics-explorer
 
 
-**For HPA (1,n, scaling)**
+** For HPA (1,n, scaling)**
+
+### Scaling (1 to n) based on llm metrics
+
+if you want to do scaling based on LLM metrics (tokens, kv cache, etc.)
+
+
+    > gcloud iam service-accounts add-iam-policy-binding --role \
+         roles/iam.workloadIdentityUser --member \
+         "serviceAccount:gemma-test-deployment.svc.id.goog[custom-metrics/custom-metrics-stackdriver-adapter]" \
+         883536042426-compute@developer.gserviceaccount.com
+
+    > k apply -f manifests/06-enable-custom-metrics.yaml
+
+    > kubectl annotate serviceaccount --namespace custom-metrics \
+         custom-metrics-stackdriver-adapter \
+         iam.gke.io/gcp-service-account=883536042426-compute@developer.gserviceaccount.com
+
+    > k apply -f manifests/07-hpa.yaml
+
+**sanity checks**
 
 Check custom metrics services are ok. You should see `v1beta1.custom.metrics.k8s.io` with the availability flag set to `true`
 

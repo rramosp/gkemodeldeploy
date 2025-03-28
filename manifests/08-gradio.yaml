@@ -28,7 +28,7 @@ spec:
         - name: CONTEXT_PATH
           value: "/v1/chat/completions"
         - name: HOST
-          value: "http://gemma3-service:8000"
+          value: "http://llm-service:8000"
         - name: LLM_ENGINE
           value: "vllm"
         - name: MODEL_ID

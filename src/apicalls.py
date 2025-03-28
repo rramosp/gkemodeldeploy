@@ -54,3 +54,9 @@ def get_model(modelstr):
         raise ValueError(f'model {modelstr} does not have an apicall definition. check apicalls.py')
 
     return models[modelstr]
+
+def get_available_models():
+    print (list(models.keys()))
+
+if __name__ == "__main__":
+    get_available_models()

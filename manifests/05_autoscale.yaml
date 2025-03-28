@@ -4,7 +4,7 @@ metadata:
     name: llm-http-scaling
 spec:
     hosts: 
-      - 34.42.224.58
+      - llm-service
     scaleTargetRef:
         name: llm-deployment
         kind: Deployment
@@ -14,10 +14,10 @@ spec:
     replicas:
         min: 0
         max: 10
-    scaledownPeriod: 300
+    scaledownPeriod: 30
     scalingMetric:
         requestRate:
             granularity: 1s
-            targetValue: 20
-            window: 30s
+            targetValue: 5
+            window: 10s
 

@@ -6,15 +6,12 @@ import apicalls
 parser = argparse.ArgumentParser()
 parser.add_argument("--model", help="model id, such as gemma3-1b")
 parser.add_argument("--endpoint", help="the url endpoint, such as http://localhost:8000")
-parser.add_argument("--header_host", default=None, help="the value for the 'host' header key")
 args = parser.parse_args()
 
 url = args.endpoint
 modelstr = args.model
 
-headers = { "Content-Type": "application/json" }
-if args.header_host is not None:
-    headers['Host'] = args.header_host
+headers = { "Content-Type": "application/json", 'Host': 'llm-service' }
 
 model = apicalls.get_model(modelstr)
 
